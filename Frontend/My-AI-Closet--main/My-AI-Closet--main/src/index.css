@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Bodoni Moda", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --color-surface: #f9f9f9;
+  --color-surface-dim: #dadada;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f4;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #444748;
+  --color-outline: #747878;
+  --color-outline-variant: #c4c7c7;
+
+  --color-primary: var(--app-primary, #000000);
+  --color-on-primary: var(--app-on-primary, #ffffff);
+  --color-secondary-container: var(--app-secondary-container, #e5e2dd);
+  --color-on-secondary-container: var(--app-on-secondary-container, #656461);
+  --color-accent: var(--app-accent, #000000);
+}
+
+:root {
+  --app-primary: #000000;
+  --app-on-primary: #ffffff;
+  --app-secondary-container: #e5e2dd;
+  --app-on-secondary-container: #656461;
+  --app-highlight-bg: transparent;
+}
+
+.theme-highlight-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.05;
+  background: var(--app-highlight-bg, transparent);
+  transition: background 1s ease-in-out;
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-serif {
+    @apply font-serif;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.gauge-ring {
+  transition: stroke-dashoffset 1s ease-in-out;
+}
