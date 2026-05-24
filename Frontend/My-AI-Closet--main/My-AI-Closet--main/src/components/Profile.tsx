@@ -39,10 +39,10 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
   });
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto px-6 pt-32 pb-32 flex flex-col gap-10">
+    <div className="w-full max-w-[1440px] mx-auto px-4 pt-16 pb-16 flex flex-col gap-6">
       {/* Profile Header */}
-      <section className="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-outline-variant/20 pb-10">
-        <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-primary p-1 bg-surface">
+      <section className="flex flex-col items-center gap-4 border-b border-outline-variant/20 pb-6">
+        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-primary p-1 bg-surface shrink-0">
           <img
             className="w-full h-full object-cover rounded-full"
             src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200"
@@ -51,12 +51,12 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
         </div>
 
         <div className="flex-1 text-center md:text-left">
-          <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-            <h1 className="text-3xl font-serif italic uppercase tracking-wider text-primary">Alexandria Sterling</h1>
-            <div className="flex justify-center md:justify-start gap-2">
+          <div className="flex flex-col items-center gap-3 mb-4">
+            <h1 className="text-xl font-serif italic uppercase tracking-wider text-primary break-words">Alexandria Sterling</h1>
+            <div className="flex flex-wrap justify-center gap-2">
               <button
                 onClick={onResetDNA}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white text-[10px] font-bold uppercase tracking-widest hover:bg-primary/80 transition-all shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-white text-[9px] font-bold uppercase tracking-widest hover:bg-primary/80 transition-all shadow-md"
               >
                 <Repeat size={14} className="animate-spin-slow" />
                 스타일 DNA 다시 테스트
@@ -71,13 +71,13 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
             </div>
           </div>
 
-          <div className="bg-surface-container-lowest/50 rounded-3xl px-8 py-6 mb-10 max-w-4xl border border-outline-variant/10 text-left shadow-sm flex flex-col gap-6">
+          <div className="bg-surface-container-lowest/50 rounded-2xl px-5 py-4 mb-6 w-full border border-outline-variant/10 text-left shadow-sm flex flex-col gap-4">
             <h2 className="flex items-center gap-2 text-on-surface">
-              <User size={16} className="text-primary" fill="currentColor" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] mt-1">AI Personalization Engine</span>
+              <User size={14} className="text-primary" fill="currentColor" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em]">AI Engine</span>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-row gap-4">
               <div className="flex flex-col gap-2">
                 <label className="text-[9px] font-black uppercase tracking-widest text-primary/50">MBTI Type</label>
                 <div className="relative">
@@ -86,7 +86,7 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
                     onChange={(e) => setMbti(e.target.value)}
                     className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest outline-none appearance-none cursor-pointer"
                   >
-                    {["INFJ", "ENFP", "INTJ", "ENTP", "ISTJ", "ESTJ"].map(m => (
+                    {["INFJ", "ENFP", "INTJ", "ENTP", "ISTJ", "ESTJ", "None"].map(m => (
                       <option key={m} value={m}>{m}</option>
                     ))}
                   </select>
@@ -111,38 +111,36 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
               </div>
             </div>
 
-            <div className="flex-1 flex flex-row items-center gap-4 border-t border-outline-variant/10 pt-4">
-              <div className="w-1/4">
+            <div className="flex-1 flex flex-col gap-3 border-t border-outline-variant/10 pt-3">
+              <div className="w-full flex gap-3">
                 <div className="relative">
                   <select
                     value={profileGender}
                     onChange={(e) => setProfileGender(e.target.value)}
-                    className="w-full bg-transparent border-b border-outline-variant/20 py-2 text-xs appearance-none outline-none focus:border-primary/50 cursor-pointer font-medium"
+                    className="w-full bg-transparent border-b border-outline-variant/20 py-1.5 text-[10px] appearance-none outline-none font-medium"
                   >
-                    <option value="남성">성별: 남성</option>
-                    <option value="여성">성별: 여성</option>
+                    <option value="남성">남성</option>
+                    <option value="여성">여성</option>
                   </select>
-                  <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
                 </div>
               </div>
 
-              <div className="w-1/4">
+              <div className="w-full">
                 <input
                   type="text"
                   value={occupation}
                   placeholder="연령 및 직업"
                   onChange={(e) => setOccupation(e.target.value)}
-                  className="w-full bg-transparent border-b border-outline-variant/20 py-2 text-xs outline-none focus:border-primary/50 font-medium placeholder:text-on-surface-variant/40"
+                  className="w-full bg-transparent border-b border-outline-variant/20 py-1.5 text-[10px] outline-none font-medium"
                 />
               </div>
 
-              <div className="w-1/2">
+              <div className="w-full">
                 <input
                   type="text"
                   value={concerns}
                   placeholder="체형 및 고민 사항"
-                  onChange={(e) => setConcerns(e.target.value)}
-                  className="w-full bg-transparent border-b border-outline-variant/20 py-2 text-xs outline-none focus:border-primary/50 font-medium placeholder:text-on-surface-variant/40"
+                  className="w-full bg-transparent border-b border-outline-variant/20 py-1.5 text-[10px] outline-none font-medium"
                 />
               </div>
             </div>
@@ -165,12 +163,11 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
         </div>
       </section>
 
-      {/* Style DNA Section (Comprehensive) */}
-      <section className="w-full bg-surface-container-low/50 rounded-[2rem] border border-outline-variant/10 shadow-sm overflow-hidden flex flex-col md:flex-row">
+      <section className="w-full bg-surface-container-low/50 rounded-2xl border border-outline-variant/10 shadow-sm overflow-hidden flex flex-col">
 
-        {/* Left: Visual DNA Radar */}
-        <div className="p-8 md:p-10 flex-1 border-b md:border-b-0 md:border-r border-outline-variant/10 flex flex-col items-center justify-center bg-surface-container-lowest/30">
-          <h2 className="text-2xl font-serif italic mb-2">Style DNA Blueprint</h2>
+        {/* Top: Visual DNA Radar */}
+        <div className="p-6 flex-1 border-b border-outline-variant/10 flex flex-col items-center justify-center bg-surface-container-lowest/30">
+          <h2 className="text-lg font-serif italic mb-1">Style DNA Blueprint</h2>
           <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-on-surface-variant/60 mb-6">개인화된 패션 성향 지표</p>
 
           <div className="w-full max-w-[280px] aspect-square flex items-center justify-center bg-surface rounded-full shadow-inner border border-outline-variant/5">
@@ -184,11 +181,11 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
           </div>
         </div>
 
-        {/* Right: Insights & Origin Personas */}
-        <div className="p-8 md:p-10 flex-1 flex flex-col justify-between">
+        {/* Bottom: Insights & Origin Personas */}
+        <div className="p-6 flex-1 flex flex-col justify-between">
           <div>
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-serif">스타일 DNA 인사이트</h3>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-sm font-serif">스타일 DNA 인사이트</h3>
               <button onClick={onResetDNA} className="text-[9px] font-bold text-primary uppercase tracking-widest underline underline-offset-4 hover:opacity-70 transition-opacity">
                 DNA 재분석
               </button>
@@ -216,8 +213,8 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
       </section>
 
       {/* Outfit Collections Section */}
-      <section className="w-full">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+      <section className="w-full mb-16">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
           <div>
             <h2 className="text-2xl font-serif">코디 컬렉션</h2>
             <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mt-1">직접 큐레이션한 스타일 조합</p>
@@ -238,24 +235,24 @@ export default function Profile({ onLogout, onResetDNA, selectedPersonas, mbti, 
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex overflow-x-auto gap-4 pb-4 snap-x">
           {sortedOutfits.map((outfit, idx) => (
             <motion.div
               key={outfit.id}
               layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className="bg-surface-container-lowest border border-outline-variant/20 rounded-2xl overflow-hidden flex h-[160px] group hover:shadow-lg transition-all"
+              className="shrink-0 w-[280px] bg-surface-container-lowest border border-outline-variant/20 rounded-2xl overflow-hidden flex h-[130px] group snap-center shadow-sm"
             >
-              <div className="w-1/3 h-full overflow-hidden">
+              <div className="w-1/3 h-full overflow-hidden shrink-0">
                 <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover"
                   src={outfit.image}
                   alt={outfit.name}
                 />
               </div>
-              <div className="flex-1 p-6 flex flex-col justify-between">
+              <div className="flex-1 p-4 flex flex-col justify-between">
                 <div>
                   <div className="flex justify-between items-start mb-1">
                     <span className="text-[9px] font-black uppercase tracking-widest text-primary/40">{outfit.occasion}</span>

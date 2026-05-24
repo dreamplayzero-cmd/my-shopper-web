@@ -13,6 +13,7 @@ export default function PersonaSelection({ onSelect, gender }: Props) {
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysisStep, setAnalysisStep] = useState(0);
+    const [previewPersona, setPreviewPersona] = useState<Persona | null>(null);
 
     const analysisMessages = [
         "당신의 시맨틱 스타일 패턴 분석 중...",
@@ -47,7 +48,7 @@ export default function PersonaSelection({ onSelect, gender }: Props) {
     };
 
     return (
-        <div className="pt-24 pb-32 px-6 max-w-[1440px] mx-auto min-h-screen relative">
+        <div className="pt-24 pb-32 px-6 max-w-[1440px] mx-auto h-full w-full overflow-y-auto relative">
             <AnimatePresence>
                 {isAnalyzing && (
                     <motion.div
@@ -101,42 +102,43 @@ export default function PersonaSelection({ onSelect, gender }: Props) {
                 )}
             </AnimatePresence>
 
-            <div className="mb-16">
+            <div className="mb-16 mt-8">
                 <div className="flex items-center gap-3 mb-4 opacity-40">
                     <Sparkles size={16} />
                     <span className="text-[10px] font-bold uppercase tracking-[0.4em]">Step 02: Aesthetic Profiling</span>
                 </div>
-                <h2 className="font-serif text-4xl md:text-5xl italic mb-6 tracking-tight">당신의 스타일 DNA를 선택하세요</h2>
-                <p className="text-on-surface-variant/60 font-light text-lg max-w-2xl leading-relaxed">
+                <h2 className="font-serif text-2xl md:text-4xl italic mb-4 tracking-tight">당신의 스타일 DNA를 선택하세요</h2>
+                <p className="text-on-surface-variant/60 font-light text-sm md:text-lg max-w-2xl leading-relaxed">
                     자신의 스타일과 가장 가까운 페르소나를 3~5개 선택하세요. <br />
-                    AI가 당신의 미학적 취향을 분석하여 최적의 스타일 솔루션을 설계합니다.
+                    클릭하면 이미지를 크게 확인할 수 있습니다.
                 </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+            <div className="grid grid-cols-4 gap-4 md:gap-8 pb-12">
                 {filteredPersonas.map((persona) => {
                     const isSelected = selectedIds.includes(persona.id);
                     return (
                         <motion.div
                             key={persona.id}
-                            whileHover={{ y: -8 }}
+                            whileHover={{ y: -4 }}
                             whileTap={{ scale: 0.98 }}
-                            onClick={() => togglePersona(persona.id)}
-                            className={`relative cursor-pointer rounded-[2rem] overflow-hidden group border transition-all duration-700
-                ${isSelected ? 'border-primary shadow-2xl scale-105 z-10' : 'border-outline-variant/10 opacity-70 hover:opacity-100'}
+                            onClick={() => setPreviewPersona(persona)}
+                            className={`relative cursor-pointer rounded-2xl md:rounded-[2rem] overflow-hidden group border transition-all duration-500
+                ${isSelected ? 'border-primary shadow-xl scale-105 z-10 ring-4 ring-primary/20' : 'border-outline-variant/10 opacity-80 hover:opacity-100'}
               `}
                         >
-                            <div className="aspect-[3/4] overflow-hidden grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700">
+                            <div className="aspect-[3/4] overflow-hidden grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700">
                                 <img
                                     src={persona.image}
                                     alt={persona.mood}
-                                    className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110"
+                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                 />
                             </div>
 
-                            <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end">
-                                <p className="text-white/40 text-[8px] font-bold uppercase tracking-[0.2em] mb-1">{persona.category}</p>
-                                <p className="text-white text-xs font-serif italic tracking-wide">{persona.mood}</p>
+                            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-10" />
+                            <div className="absolute bottom-1.5 right-2 flex flex-col items-end text-right z-20 origin-bottom-right scale-75">
+                                <p className="text-white/80 text-[8px] font-bold tracking-widest uppercase mb-0.5 leading-none">KOREA</p>
+                                <p className="text-white text-[10px] font-serif italic tracking-wide leading-none">{persona.mood}</p>
                             </div>
 
                             <AnimatePresence>
@@ -145,7 +147,7 @@ export default function PersonaSelection({ onSelect, gender }: Props) {
                                         initial={{ opacity: 0, scale: 0.5 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.5 }}
-                                        className="absolute top-4 right-4 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white shadow-lg"
+                                        className="absolute top-3 right-3 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white shadow-lg"
                                     >
                                         <Check size={14} strokeWidth={4} />
                                     </motion.div>
@@ -156,31 +158,66 @@ export default function PersonaSelection({ onSelect, gender }: Props) {
                 })}
             </div>
 
-            <div className="fixed bottom-0 left-0 w-full p-10 bg-gradient-to-t from-surface via-surface/90 to-transparent z-40">
-                <div className="max-w-md mx-auto">
-                    <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={handleConfirm}
-                        disabled={selectedIds.length < 3}
-                        className={`w-full py-6 rounded-full font-bold uppercase tracking-[0.3em] text-[10px] transition-all duration-700 shadow-2xl relative overflow-hidden group
-              ${selectedIds.length >= 3
-                                ? 'bg-primary text-white opacity-100'
-                                : 'bg-outline-variant/20 text-on-surface-variant/40 cursor-not-allowed'}
-            `}
-                    >
-                        <span className="relative z-10">스타일 DNA 분석 시작 ({selectedIds.length}/5)</span>
-                        {selectedIds.length >= 3 && (
-                            <motion.div
-                                initial={{ x: "-100%" }}
-                                whileHover={{ x: "100%" }}
-                                transition={{ duration: 0.6 }}
-                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                            />
-                        )}
-                    </motion.button>
-                </div>
+            {/* Bottom Button (Scrolls naturally with the list) */}
+            <div className="w-full max-w-md mx-auto pb-12 pt-4 px-4">
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleConfirm}
+                    disabled={selectedIds.length < 3}
+                    className={`w-full py-4 rounded-full font-bold uppercase tracking-[0.2em] text-[12px] transition-all duration-500 relative overflow-hidden group shadow-lg border border-outline-variant/10
+                        ${selectedIds.length >= 3
+                            ? 'bg-primary text-white opacity-100'
+                            : 'bg-surface-container-high text-on-surface-variant/40 cursor-not-allowed'}
+                    `}
+                >
+                    <span className="relative z-10">스타일 DNA 분석 시작 ({selectedIds.length}/5)</span>
+                </motion.button>
             </div>
+
+            {/* Image Preview Modal */}
+            <AnimatePresence>
+                {previewPersona && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[200] bg-black/90 flex flex-col items-center justify-center p-6 backdrop-blur-md"
+                        onClick={() => setPreviewPersona(null)}
+                    >
+                        <motion.div 
+                           initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                           animate={{ scale: 1, opacity: 1, y: 0 }}
+                           exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                           className="relative w-full max-w-sm rounded-3xl overflow-hidden bg-surface shadow-2xl"
+                           onClick={(e) => e.stopPropagation()}
+                        >
+                            <img src={previewPersona.image} alt={previewPersona.mood} className="w-full aspect-[3/4] object-cover" />
+                            <div className="p-6 text-center">
+                                <h3 className="font-serif text-2xl italic text-on-surface mb-2">{previewPersona.mood}</h3>
+                                <p className="text-xs text-on-surface-variant uppercase tracking-widest mb-6">{previewPersona.category}</p>
+                                
+                                <button
+                                    onClick={() => {
+                                        togglePersona(previewPersona.id);
+                                        setPreviewPersona(null);
+                                    }}
+                                    className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest text-[11px] transition-all
+                                        ${selectedIds.includes(previewPersona.id) ? 'bg-error/10 text-error' : 'bg-primary text-white'}`}
+                                >
+                                    {selectedIds.includes(previewPersona.id) ? '선택 취소하기' : '이 스타일 선택하기'}
+                                </button>
+                            </div>
+                        </motion.div>
+                        <button 
+                            className="mt-6 px-6 py-2 rounded-full border border-white/20 text-white/60 text-[10px] uppercase tracking-widest hover:bg-white/10"
+                            onClick={() => setPreviewPersona(null)}
+                        >
+                            닫기
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

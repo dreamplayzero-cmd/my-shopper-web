@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Camera, Zap, CheckCircle2, Sparkles, Database, ArrowRight, Loader2, Palette } from 'lucide-react';
+import { Camera, Zap, CheckCircle2, Sparkles, Database, ArrowRight, Loader2, Palette, CloudSun } from 'lucide-react';
 import { ITEMS } from '../constants';
 
 type AnalysisStep = 'IDLE' | 'ANALYZING' | 'RESULT';
@@ -21,13 +21,43 @@ export default function WardrobeAnalysis({ gender, onOpenProfile }: Props) {
   const [prefStyle, setPrefStyle] = useState('');
   const [mbti, setMbti] = useState('INTJ');
 
+  const [weather, setWeather] = useState({
+    condition: '맑음',
+    loading: true
+  });
+
   const analysisMessages = [
     "얼굴 색상 및 이목구비 영역 추출 중...",
     "색채 심리학 기반 퍼스널 톤 분석 중...",
     "웜톤/쿨톤 스타일 DNA 매칭 중...",
+    "등록된 옷의 카테고리 매핑 중 (예: 울 자켓)...",
+    "실시간 기상 데이터 연동 및 소재 적합도 분석 중...",
     "실루엣 및 무드 유사도 계산 중...",
     "최종 스타일 호환성 점수 산출 완료"
   ];
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+          const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&current=weather_code&timezone=auto`);
+          const data = await res.json();
+          const code = data.current.weather_code;
+          let conditionStr = '맑음';
+          if (code >= 1 && code <= 3) conditionStr = '구름많음/흐림';
+          else if (code >= 51 && code <= 67) conditionStr = '비';
+          else if (code >= 71 && code <= 77) conditionStr = '눈';
+          else if (code >= 80 && code <= 82) conditionStr = '소나기';
+          
+          setWeather({ condition: conditionStr, loading: false });
+        } catch (e) {
+          setWeather({ condition: '맑음', loading: false });
+        }
+      }, () => setWeather({ condition: '맑음', loading: false }));
+    } else {
+      setWeather({ condition: '맑음', loading: false });
+    }
+  }, []);
 
   // Hardcoded to female to match the AI "Cool Tone" analysis of the female logo model
   const compatibilityItems = ITEMS.filter(i => i.gender === 'female' || i.gender === 'both').slice(0, 4);
@@ -81,9 +111,9 @@ export default function WardrobeAnalysis({ gender, onOpenProfile }: Props) {
         <p className="text-[10px] text-on-surface-variant/50 tracking-[0.2em] uppercase font-bold">Style Compatibility Engine v2.0</p>
       </div>
 
-      <div className="grid lg:grid-cols-[1fr_2.5fr] gap-10 items-start w-full">
-        {/* Left Side: Upload & Input Form (Sticky) */}
-        <div className="flex flex-col gap-6 sticky top-24">
+      <div className="flex flex-col gap-10 items-start w-full">
+        {/* Top/Left Side: Upload & Input Form */}
+        <div className="flex flex-col gap-6 w-full">
           <div className="bg-surface-container-low rounded-[2rem] p-6 border border-outline-variant/10 shadow-sm flex flex-col gap-4">
             <h3 className="text-[10px] font-bold text-primary flex items-center gap-2 tracking-[0.2em] uppercase">
               <Database size={14} /> Personal Identity
@@ -95,7 +125,7 @@ export default function WardrobeAnalysis({ gender, onOpenProfile }: Props) {
               <div className="pt-2">
                 <label className="text-[9px] font-bold uppercase tracking-widest text-primary/50 block mb-2">MBTI TYPE</label>
                 <select value={mbti} onChange={(e) => setMbti(e.target.value)} className="w-full bg-surface-container border border-outline-variant/20 rounded-xl py-3 px-3 text-xs outline-none font-bold tracking-widest">
-                  {["INTJ", "ENTP", "INFP", "ESTJ", "ISFJ", "ENFJ"].map(m => (
+                  {["INTJ", "ENTP", "INFP", "ESTJ", "ISFJ", "ENFJ", "INFJ", "None"].map(m => (
                     <option key={m} value={m}>{m}</option>
                   ))}
                 </select>
@@ -108,7 +138,6 @@ export default function WardrobeAnalysis({ gender, onOpenProfile }: Props) {
               type="file"
               id="photo-upload"
               accept="image/*"
-              capture="environment"
               className="hidden"
               onChange={handleImageChange}
             />
@@ -145,9 +174,9 @@ export default function WardrobeAnalysis({ gender, onOpenProfile }: Props) {
                 </div>
                 <h3 className="text-2xl font-serif italic mb-4">대기 중인 분석 스레드 없음</h3>
                 <p className="text-sm font-light text-on-surface-variant leading-relaxed max-w-sm mb-10">
-                  좌측 패널에 개인정보를 입력하고 사진을 업로드하시면, 색채 심리학 기반 퍼스널 컬러와 어울리는 착장을 시맨틱하게 분석합니다.
+                  위 패널에 개인정보를 입력하고 사진을 업로드하시면, 색채 심리학 기반 퍼스널 컬러와 어울리는 착장을 시맨틱하게 분석합니다.
                 </p>
-                <div className="grid grid-cols-2 gap-4 w-full max-w-md text-left">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md text-left">
                   {[
                     { t: '색채 심리학 분류', d: '얼굴 톤 (웜/쿨) 정밀 진단' },
                     { t: '스타일 방향 분석', d: '입력된 정보와 DNA 대조' },
@@ -216,25 +245,44 @@ export default function WardrobeAnalysis({ gender, onOpenProfile }: Props) {
                 className="space-y-12 bg-surface-container-lowest rounded-[3rem] p-8 md:p-12 border border-outline-variant/10 shadow-2xl"
               >
                 {/* 1) Color Psychology & Avatar */}
-                <header className="flex flex-col xl:flex-row gap-10 items-center xl:items-start">
-                  <div className="w-full xl:w-2/5 aspect-[4/5] bg-surface-container-low rounded-[2rem] overflow-hidden group relative border border-outline-variant/10 shrink-0">
+                <header className="flex flex-col gap-10 items-center">
+                  <div className="w-full max-w-[240px] aspect-[4/5] bg-surface-container-low rounded-[2rem] overflow-hidden group relative border border-outline-variant/10 shrink-0">
                     <img
                       src={uploadedImage || ITEMS[0].image}
                       alt="Analyzed face"
                       className="w-full h-full object-cover grayscale-[20%] group-hover:scale-110 transition-transform duration-1000"
                     />
                     <div className="absolute bottom-4 left-4 right-4">
-                      <div className="bg-white/10 backdrop-blur-xl p-4 rounded-xl border border-white/20">
-                        <p className="text-[9px] text-white/80 uppercase tracking-widest font-bold mb-1">Color Psychology Tone</p>
-                        <p className="text-white text-sm font-serif italic mb-2">쿨톤 (Cool Tone) 베이스</p>
-                        <p className="text-[7px] text-white/60 tracking-wider">
+                      <div className="bg-white/10 backdrop-blur-xl p-3 rounded-xl border border-white/20">
+                        <p className="text-[7px] text-white/80 uppercase tracking-widest font-bold mb-0.5">Color Psychology Tone</p>
+                        <p className="text-white text-[10px] font-serif italic mb-1">쿨톤 (Cool Tone) 베이스</p>
+                        <p className="text-[5px] text-white/60 tracking-wider">
                           * AI 기반 퍼스널 컬러 OpenCV 분석 알고리즘 적용
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex-1 space-y-8">
+                  {/* Material Description Line */}
+                  <div className="w-full text-center px-4 -mt-2">
+                    <p className="text-sm text-on-surface-variant font-light italic break-keep">
+                      등록된 의류 소재: <span className="font-bold text-on-surface">울(Wool) 자켓</span> - 보온성이 뛰어나고 클래식한 무드
+                    </p>
+                  </div>
+
+                  {/* Smart Weather API Report Card */}
+                  <div className="w-full bg-primary/5 border border-primary/20 rounded-3xl p-6 text-center flex flex-col items-center gap-3 shadow-sm mx-auto max-w-sm">
+                    <CloudSun size={24} className="text-primary" />
+                    <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Weather × Material Data Report</p>
+                    <p className="text-sm font-serif italic text-on-surface break-keep leading-relaxed">
+                      "오늘 기상은 <strong>{weather.condition}</strong> 상태입니다.<br/>
+                      {weather.condition === '비' || weather.condition === '소나기' || weather.condition === '눈'
+                        ? '비(눈)가 와서 습기에 취약한 울 소재가 손상될 수 있으니 착용을 피하거나 우산을 꼭 준비하세요.'
+                        : '울 소재의 특유의 고급스러움을 쾌적하게 연출하기 좋은 날씨입니다.'}"
+                    </p>
+                  </div>
+
+                  <div className="flex-1 space-y-8 w-full">
                     <section>
                       <div className="flex items-center gap-3 mb-4">
                         <div className="bg-secondary/10 px-3 py-1 rounded-full flex items-center gap-2">
@@ -242,8 +290,11 @@ export default function WardrobeAnalysis({ gender, onOpenProfile }: Props) {
                           <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">Color Psychological Match</span>
                         </div>
                       </div>
-                      <h3 className="text-2xl font-serif italic leading-relaxed mb-4">
-                        “고객님의 색채는 <span className="font-bold underline decoration-secondary text-on-surface">쿨톤(Cool)</span>의 차갑고 이지적인 에너지와 깊숙이 연결되어 있습니다.”
+                      <h3 className="text-xl md:text-2xl font-serif italic leading-relaxed mb-4 break-keep">
+                        “고객님의 색채는<br/>
+                        <span className="font-bold underline decoration-secondary text-on-surface">쿨톤(Cool)</span>의 차갑고 이지적인<br/>
+                        에너지와 깊숙이<br/>
+                        연결되어 있습니다.”
                       </h3>
                       <p className="text-sm font-light leading-relaxed text-on-surface-variant">
                         색채 심리학 분석 결과, 차갑고 명확한 색상이 이목구비를 더욱 선명하고 이지적으로 돋보이게 만듭니다. 입력하신 '{mbti}' 기질의 분석적인 무드와 완벽한 시너지를 이룹니다. 네이비/블랙 베이스와 실버 액세서리가 최적의 밸런스를 구축합니다.
@@ -275,7 +326,7 @@ export default function WardrobeAnalysis({ gender, onOpenProfile }: Props) {
                     <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Synergy with Wardrobe</span>
                   </div>
                   <h2 className="text-2xl font-serif italic mb-8">기존 보유 상품과의 최적 조합</h2>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div className="grid grid-cols-2 xl:grid-cols-4 gap-6">
                     {compatibilityItems.map((item) => (
                       <motion.div key={item.id} whileHover={{ y: -5 }} className="group">
                         <div className="aspect-square bg-surface-container-low rounded-3xl overflow-hidden mb-4 relative shadow-sm border border-outline-variant/5">

@@ -34,13 +34,13 @@ export default function StyleDNA({ selectedPersonas, onReset, isModal }: Props) 
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-12 text-center"
             >
-                <h2 className="font-serif text-5xl mb-4 tracking-tighter">당신의 스타일 DNA</h2>
-                <p className="text-on-surface-variant font-light text-xl italic uppercase tracking-widest">
+                <h2 className="font-serif text-3xl md:text-5xl mb-4 tracking-tighter break-keep">당신의 스타일 DNA</h2>
+                <p className="text-on-surface-variant font-light text-sm md:text-xl italic uppercase tracking-widest break-keep">
                     스타일 감성과 무드를 분석한 시맨틱 블루프린트
                 </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+            <div className="grid xl:grid-cols-2 gap-12 items-center mb-16">
                 {/* Radar Chart */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -66,7 +66,7 @@ export default function StyleDNA({ selectedPersonas, onReset, isModal }: Props) 
                 {/* Style Percentages */}
                 <div className="space-y-8">
                     <div>
-                        <h3 className="font-serif text-2xl mb-6 flex items-center gap-2">
+                        <h3 className="font-serif text-lg md:text-2xl mb-6 flex items-center gap-2 whitespace-nowrap">
                             <span className="w-8 h-[1px] bg-primary"></span>
                             핵심 스타일 구성
                         </h3>
@@ -80,7 +80,7 @@ export default function StyleDNA({ selectedPersonas, onReset, isModal }: Props) 
                                 >
                                     <div className="flex justify-between items-end mb-2">
                                         <span className="font-bold text-sm uppercase tracking-widest">{style.name}</span>
-                                        <span className="font-serif italic text-xl">{style.percentage}%</span>
+                                        <span className="font-serif italic text-lg md:text-xl">{style.percentage}%</span>
                                     </div>
                                     <div className="h-1 bg-surface-container-high rounded-full overflow-hidden">
                                         <motion.div
@@ -96,7 +96,7 @@ export default function StyleDNA({ selectedPersonas, onReset, isModal }: Props) 
                     </div>
 
                     <div>
-                        <h3 className="font-serif text-2xl mb-6 flex items-center gap-2">
+                        <h3 className="font-serif text-lg md:text-2xl mb-6 flex items-center gap-2 whitespace-nowrap">
                             <span className="w-8 h-[1px] bg-primary"></span>
                             타인이 느끼는 인상
                         </h3>
@@ -120,8 +120,8 @@ export default function StyleDNA({ selectedPersonas, onReset, isModal }: Props) 
             <div className="bg-primary text-white rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
                 <div className="relative z-10">
-                    <h3 className="font-serif text-3xl mb-4 italic">Style DNA 인사이트</h3>
-                    <p className="text-white/80 leading-relaxed text-lg font-light">
+                    <h3 className="font-serif text-xl md:text-3xl mb-4 italic">Style DNA 인사이트</h3>
+                    <p className="text-white/80 leading-relaxed text-sm md:text-lg font-light break-keep">
                         당신의 시맨틱 프로필은 <strong>도시적인 실용성(Urban Utility)</strong>과 <strong>깔끔한 미니멀리즘(Clean Minimalist)</strong> 미학을 강조하고 있습니다.
                         타인은 당신의 옷차림을 "세련되고 감각적인 스타일"로 인식할 가능성이 높습니다. 현재 당신의 옷장은 지적인 느낌을 주는 실루엣과 저채도 톤에 집중되어 있습니다.
                     </p>
@@ -130,11 +130,11 @@ export default function StyleDNA({ selectedPersonas, onReset, isModal }: Props) 
 
             {/* Added Fabric/Material Detection Logic Info */}
             <div className="mt-8 bg-surface-container-lowest border border-outline-variant/20 rounded-[2rem] p-8 shadow-sm">
-                <h3 className="font-serif text-2xl mb-4 italic text-on-surface">의류 디텍션 및 기능성 소재(Fabric) 매핑</h3>
-                <p className="text-on-surface-variant text-sm font-light leading-relaxed mb-4">
+                <h3 className="font-serif text-lg md:text-2xl mb-4 italic text-on-surface break-keep">의류 디텍션 및 기능성 소재(Fabric) 매핑</h3>
+                <p className="text-on-surface-variant text-xs md:text-sm font-light leading-relaxed mb-4 break-keep">
                     원단 재질 자체를 직접 분석하는 리스크를 배제하고, 가장 빠르고 정확하게 분석할 수 있는 <strong>경량화 하이브리드 엔진</strong>을 적용하여 결과를 도출했습니다.
                 </p>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid xl:grid-cols-2 gap-4">
                     <div className="bg-surface-container-low p-5 rounded-2xl">
                         <div className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-2 flex items-center gap-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span> YOLO / OpenCV

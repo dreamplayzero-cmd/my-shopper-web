@@ -58,7 +58,7 @@ export default function SavedLooks({ onBack, gender }: Props) {
                     </div>
                     <div className="flex-1 w-full">
                         <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-2 flex items-center gap-2"><Sparkles size={12} /> AI Style Insight</p>
-                        <p className="text-sm text-on-surface italic font-light leading-relaxed">
+                        <p className="text-sm text-on-surface italic font-light leading-relaxed break-keep">
                             "주로 '클린 미니멀'과 '어반' 룩을 선호하시며, 구조적이고 절제된 톤온톤 무드의 착장을 주기적으로 아카이빙하고 있습니다. 완성된 개인 패션 세계관입니다."
                         </p>
                     </div>

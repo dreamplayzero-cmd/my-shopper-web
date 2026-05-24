@@ -110,9 +110,9 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-surface selection:bg-secondary-container">
+    <div className="h-full w-full overflow-y-auto bg-surface selection:bg-secondary-container safe-area-padding">
       {/* Top Bar */}
-      <header className="fixed top-0 left-0 w-full bg-surface/80 backdrop-blur-md z-50 px-6 py-4 border-b border-outline-variant/10">
+      <header className="fixed top-0 left-0 w-full bg-surface/80 backdrop-blur-md z-50 px-6 pt-12 pb-4 border-b border-outline-variant/10">
         <div className="max-w-[1440px] mx-auto flex justify-between items-center">
           <Menu onClick={() => setIsNavOpen(true)} className="text-primary cursor-pointer hover:opacity-60 transition-opacity" size={20} />
           <h1 className="font-serif text-xl tracking-[0.3em] uppercase">스타일 캐비닛</h1>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, CloudSun, Thermometer, Wind, Check, Bookmark, Loader2 } from 'lucide-react';
 import { OUTFITS, ITEMS, Outfit } from '../constants';
+import MaterialScanner from './MaterialScanner';
 
 interface Props {
   gender: 'male' | 'female' | 'both';
@@ -86,18 +87,18 @@ export default function Suggestions({ gender, onResetDNA, onGoToWardrobe, onOpen
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-surface-container-low rounded-[3rem] p-8 md:p-12 border border-outline-variant/10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8"
+          className="bg-surface-container-low rounded-[2rem] p-6 border border-outline-variant/10 shadow-sm flex flex-col gap-6"
         >
-          <div className="flex items-center gap-8">
-            <div className="w-20 h-20 bg-secondary-container rounded-full flex items-center justify-center text-primary shadow-inner">
-              {weather.loading ? <Loader2 size={40} className="animate-spin" /> : <CloudSun size={40} />}
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center text-primary shadow-inner shrink-0">
+              {weather.loading ? <Loader2 size={32} className="animate-spin" /> : <CloudSun size={32} />}
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-[10px] font-bold text-primary uppercase tracking-[0.4em]">Real-time Weather</span>
                 <span className="text-[8px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold">{weather.location}</span>
               </div>
-              <h2 className="text-4xl font-serif italic mb-2">
+              <h2 className="text-3xl font-serif italic mb-2">
                 {weather.temp}°C {weather.condition}
               </h2>
               <div className="flex gap-4 opacity-40 text-[10px] font-bold uppercase tracking-widest">
@@ -106,13 +107,18 @@ export default function Suggestions({ gender, onResetDNA, onGoToWardrobe, onOpen
               </div>
             </div>
           </div>
-          <div className="h-[1px] md:h-12 w-full md:w-[1px] bg-outline-variant/30" />
-          <div className="flex-1 md:max-w-md">
+          <div className="h-[1px] w-full bg-outline-variant/30" />
+          <div className="w-full">
             <p className="text-on-surface-variant font-light leading-relaxed italic text-sm">
               "현재 위치의 날씨는 {weather.temp}도, {weather.condition} 상태입니다. 날씨 데이터 기반으로 통기성 및 스타일 DNA를 유지하면서도 쾌적함을 극대화할 착장을 분석했습니다."
             </p>
           </div>
         </motion.div>
+      </section>
+
+      {/* Material Scanner Widget */}
+      <section className="px-6 mb-16">
+        <MaterialScanner />
       </section>
 
       {/* Sequences */}
@@ -123,24 +129,24 @@ export default function Suggestions({ gender, onResetDNA, onGoToWardrobe, onOpen
       <UnrolledOutfitTrack title="Minimal Edge / 미니멀" outfit={minimalOutfit} delay={0.5} onGoToWardrobe={onGoToWardrobe} onOpenMatchAnalysis={onOpenMatchAnalysis} userGender={gender} trackIdx={4} />
 
       {/* AI Insights Section (Compact) */}
-      <section className="mt-8 px-6">
-        <div className="bg-primary text-white rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center gap-8 shadow-2xl relative overflow-hidden">
+      <section className="mt-8 px-4 xl:px-6">
+        <div className="bg-primary text-white rounded-3xl p-6 flex flex-col items-center gap-6 shadow-2xl relative overflow-hidden w-full">
           <Sparkles size={24} className="text-secondary-container flex-shrink-0" />
-          <p className="flex-1 text-lg font-serif italic leading-relaxed text-center md:text-left">
-            "당신의 '클린 미니멀' 페르소나는 구조적인 디테일에 민감합니다. 오늘의 온도에서 통기성을 확보하면서도 엣지를 살릴 수 있는 오버사이즈 핏을 시도해보세요."
+          <p className="w-full text-xs font-serif italic leading-relaxed text-center break-keep">
+            "클린 미니멀 감성을 위해 통기성이 뛰어난 오버사이즈 핏을 추천합니다."
           </p>
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 w-full mt-2">
             <button
               onClick={onResetDNA}
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full text-[9px] font-bold uppercase tracking-widest transition-all backdrop-blur-md whitespace-nowrap"
+              className="w-full px-6 py-3.5 bg-white/10 hover:bg-white/20 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all backdrop-blur-md"
             >
               스타일 DNA 업데이트
             </button>
             <button
               onClick={onOpenProfile}
-              className="px-6 py-3 bg-white hover:bg-gray-100 text-primary rounded-full text-[9px] font-bold uppercase tracking-widest transition-all shadow-lg whitespace-nowrap"
+              className="w-full px-6 py-3.5 bg-white hover:bg-gray-100 text-primary rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all shadow-lg"
             >
-              마지막 리포트 페이지로 이동
+              내 프로필 관리
             </button>
           </div>
         </div>
@@ -181,7 +187,7 @@ function UnrolledOutfitTrack({ title, outfit, delay, onGoToWardrobe, onOpenMatch
         <h3 className="text-xl font-serif italic text-on-surface">{title}</h3>
       </div>
 
-      <div className="flex overflow-x-auto no-scrollbar gap-4 px-6 pb-6 items-stretch snap-x snap-mandatory">
+      <div className="flex overflow-x-auto gap-4 px-6 pb-6 items-stretch snap-x snap-mandatory">
         {sequence.map((seq, idx) => (
           <motion.div
             key={idx}
