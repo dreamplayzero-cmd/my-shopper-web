@@ -10,6 +10,7 @@ import Suggestions from './components/Suggestions';
 import WardrobeAnalysis from './components/WardrobeAnalysis';
 import Profile from './components/Profile';
 import SavedLooks from './components/SavedLooks';
+import Result from './components/Result';
 import { Persona } from './constants/personas';
 
 type Screen = 'dna' | 'closet' | 'recommend' | 'match' | 'profile' | 'saved';
@@ -213,7 +214,7 @@ export default function App() {
             />
           )}
           {currentScreen === 'saved' && <SavedLooks gender={selectedGender!} onBack={() => setCurrentScreen('closet')} />}
-          {currentScreen === 'recommend' && <Suggestions onResetDNA={handleResetDNA} gender={selectedGender!} onGoToWardrobe={() => setCurrentScreen('closet')} onOpenMatchAnalysis={() => setCurrentScreen('match')} onOpenProfile={() => setCurrentScreen('profile')} />}
+          {currentScreen === 'recommend' && <Suggestions gender={selectedGender} selectedPersonas={selectedPersonas} onResetDNA={handleResetDNA} onGoToWardrobe={() => setCurrentScreen('closet')} onOpenMatchAnalysis={() => setCurrentScreen('match')} onOpenProfile={() => setCurrentScreen('profile')} />}
           {currentScreen === 'match' && <WardrobeAnalysis gender={selectedGender!} onOpenProfile={() => setCurrentScreen('profile')} />}
           {currentScreen === 'profile' && (
             <Profile

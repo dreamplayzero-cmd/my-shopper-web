@@ -45,8 +45,8 @@ export default function SavedLooks({ onBack, gender }: Props) {
                 </div>
 
                 {/* Stats & AI Summary */}
-                <div className="bg-surface-container-lowest p-6 md:p-8 rounded-[1.5rem] border border-outline-variant/10 shadow-sm flex flex-col md:flex-row gap-6 md:gap-10 items-center">
-                    <div className="flex gap-8 border-b md:border-b-0 md:border-r border-outline-variant/10 pb-4 md:pb-0 md:pr-10 w-full md:w-auto">
+                <div className="bg-surface-container-lowest p-5 md:p-6 rounded-2xl border border-outline-variant/10 shadow-sm flex flex-col md:flex-row gap-6 items-center w-full max-w-4xl">
+                    <div className="flex gap-8 border-b md:border-b-0 md:border-r border-outline-variant/10 pb-4 md:pb-0 md:pr-10">
                         <div>
                             <p className="text-[10px] font-bold text-primary/40 uppercase tracking-[0.2em] mb-1">Total Looks</p>
                             <p className="text-3xl font-serif italic">{SAVED.length}</p>
@@ -98,7 +98,7 @@ export default function SavedLooks({ onBack, gender }: Props) {
             </header>
 
             {/* Waterfall Layout (Pinterest Style) */}
-            <div className="px-6 columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+            <div className="px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {SAVED.map((outfit) => (
                     <motion.div
                         key={outfit.id}
@@ -108,7 +108,7 @@ export default function SavedLooks({ onBack, gender }: Props) {
                         className="break-inside-avoid relative group bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 border border-outline-variant/10 flex flex-col"
                     >
                         {/* 1) Tops & Bottoms Stack Area */}
-                        <div className="bg-surface-container-low p-2.5 flex flex-col gap-2 relative">
+                        <div className="bg-surface-container-low p-2.5 flex flex-col gap-2 relative h-[300px]">
                             {/* Glass overlay actions */}
                             <div className="absolute top-4 right-4 z-20 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
@@ -125,12 +125,12 @@ export default function SavedLooks({ onBack, gender }: Props) {
                                 </button>
                             </div>
 
-                            <div className="w-full h-32 md:h-40 xl:h-48 bg-surface rounded-[1rem] overflow-hidden shadow-sm relative group/top flex items-center justify-center border border-outline-variant/5">
+                            <div className="w-full flex-1 bg-surface rounded-[1rem] overflow-hidden shadow-sm relative group/top flex items-center justify-center border border-outline-variant/5">
                                 <p className="absolute top-2 left-2 text-[8px] font-bold text-on-surface-variant/40 uppercase tracking-widest z-10 bg-white/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Tops / 상의</p>
                                 <img src={ITEMS.find(i => i.category === 'tops' && (i.gender === outfit.gender || i.gender === 'both'))?.image || ITEMS[0].image} alt="top" className="w-[85%] h-[85%] object-contain mix-blend-multiply group-hover/top:scale-110 transition-transform" />
                             </div>
 
-                            <div className="w-full h-32 md:h-40 xl:h-48 bg-surface rounded-[1rem] overflow-hidden shadow-sm relative group/bot flex items-center justify-center border border-outline-variant/5">
+                            <div className="w-full flex-1 bg-surface rounded-[1rem] overflow-hidden shadow-sm relative group/bot flex items-center justify-center border border-outline-variant/5">
                                 <p className="absolute top-2 left-2 text-[8px] font-bold text-on-surface-variant/40 uppercase tracking-widest z-10 bg-white/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Bottoms / 하의</p>
                                 <img src={ITEMS.find(i => i.category === 'bottoms' && (i.gender === outfit.gender || i.gender === 'both'))?.image || ITEMS[2].image} alt="bottom" className="w-[85%] h-[85%] object-contain mix-blend-multiply group-hover/bot:scale-110 transition-transform" />
                             </div>

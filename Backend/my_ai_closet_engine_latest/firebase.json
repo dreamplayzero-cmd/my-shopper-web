@@ -1,5 +1,6 @@
 {
     "hosting": {
+        "site": "style-shopper",
         "public": "public",
         "ignore": [
             "firebase.json",

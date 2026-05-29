@@ -43,7 +43,7 @@ export const ITEMS: Item[] = [
 
   { id: 'm3', name: '슬림 치노 팬츠', category: 'bottoms', semantics: ['Clean', 'Urban'], image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&q=80&w=300', gender: 'male', color: 'Beige' },
   { id: 'm5', name: '인디고 데님', category: 'bottoms', semantics: ['Active', 'Urban'], image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&q=80&w=300', gender: 'male', color: 'Navy' },
-  { id: 'm_b_3', name: '와이드 슬랙스', category: 'bottoms', semantics: ['Urban', 'Relaxed'], image: 'https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&q=80&w=300', gender: 'male', color: 'Black' },
+  { id: 'm_b_3', name: '와이드 슬랙스', category: 'bottoms', semantics: ['Urban', 'Relaxed'], image: 'https://images.unsplash.com/photo-1555689502-c4b22d76c56f?auto=format&fit=crop&q=80&w=300', gender: 'male', color: 'Black' },
 
   { id: 'm4', name: 'Tan Chelsea Boots', category: 'shoes', semantics: ['Urban', 'Clean'], image: 'https://images.unsplash.com/photo-1608256246200-53e66015e968?auto=format&fit=crop&q=80&w=300', gender: 'male', color: 'Tan' },
   { id: 'm_s_2', name: '화이트 스니커즈', category: 'shoes', semantics: ['Clean', 'Active'], image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&q=80&w=300', gender: 'male', color: 'White' },

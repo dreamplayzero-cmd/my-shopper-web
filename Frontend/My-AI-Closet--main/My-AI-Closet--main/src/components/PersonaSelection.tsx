@@ -13,7 +13,7 @@ export default function PersonaSelection({ onSelect, gender }: Props) {
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [analysisStep, setAnalysisStep] = useState(0);
-    const [previewPersona, setPreviewPersona] = useState<Persona | null>(null);
+
 
     const analysisMessages = [
         "당신의 시맨틱 스타일 패턴 분석 중...",
@@ -122,7 +122,7 @@ export default function PersonaSelection({ onSelect, gender }: Props) {
                             key={persona.id}
                             whileHover={{ y: -4 }}
                             whileTap={{ scale: 0.98 }}
-                            onClick={() => setPreviewPersona(persona)}
+                            onClick={() => togglePersona(persona.id)}
                             className={`relative cursor-pointer rounded-2xl md:rounded-[2rem] overflow-hidden group border transition-all duration-500
                 ${isSelected ? 'border-primary shadow-xl scale-105 z-10 ring-4 ring-primary/20' : 'border-outline-variant/10 opacity-80 hover:opacity-100'}
               `}
@@ -175,49 +175,6 @@ export default function PersonaSelection({ onSelect, gender }: Props) {
                 </motion.button>
             </div>
 
-            {/* Image Preview Modal */}
-            <AnimatePresence>
-                {previewPersona && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[200] bg-black/90 flex flex-col items-center justify-center p-6 backdrop-blur-md"
-                        onClick={() => setPreviewPersona(null)}
-                    >
-                        <motion.div 
-                           initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                           animate={{ scale: 1, opacity: 1, y: 0 }}
-                           exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                           className="relative w-full max-w-sm rounded-3xl overflow-hidden bg-surface shadow-2xl"
-                           onClick={(e) => e.stopPropagation()}
-                        >
-                            <img src={previewPersona.image} alt={previewPersona.mood} className="w-full aspect-[3/4] object-cover" />
-                            <div className="p-6 text-center">
-                                <h3 className="font-serif text-2xl italic text-on-surface mb-2">{previewPersona.mood}</h3>
-                                <p className="text-xs text-on-surface-variant uppercase tracking-widest mb-6">{previewPersona.category}</p>
-                                
-                                <button
-                                    onClick={() => {
-                                        togglePersona(previewPersona.id);
-                                        setPreviewPersona(null);
-                                    }}
-                                    className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest text-[11px] transition-all
-                                        ${selectedIds.includes(previewPersona.id) ? 'bg-error/10 text-error' : 'bg-primary text-white'}`}
-                                >
-                                    {selectedIds.includes(previewPersona.id) ? '선택 취소하기' : '이 스타일 선택하기'}
-                                </button>
-                            </div>
-                        </motion.div>
-                        <button 
-                            className="mt-6 px-6 py-2 rounded-full border border-white/20 text-white/60 text-[10px] uppercase tracking-widest hover:bg-white/10"
-                            onClick={() => setPreviewPersona(null)}
-                        >
-                            닫기
-                        </button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </div>
     );
 }

@@ -166,7 +166,7 @@ export default function MixAndMatch({ gender, onOpenSavedLooks, onOpenMatchAnaly
                 </button>
               </div>
 
-              <div className="flex overflow-x-auto no-scrollbar gap-2 pb-1">
+              <div className="flex flex-wrap gap-4 pb-4">
                 {filteredItems.map((item) => {
                   const isSelected = selectedItems.includes(item.id);
                   return (
@@ -174,7 +174,7 @@ export default function MixAndMatch({ gender, onOpenSavedLooks, onOpenMatchAnaly
                       key={item.id}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => toggleSelection(item.id)}
-                      className={`shrink-0 w-20 group cursor-pointer relative rounded-xl border-2 transition-all ${isSelected ? 'border-primary' : 'border-transparent'}`}
+                      className={`shrink-0 w-24 md:w-32 lg:w-40 group cursor-pointer relative rounded-xl border-2 transition-all ${isSelected ? 'border-primary' : 'border-transparent'}`}
                     >
                       <div className="aspect-square bg-surface-container/30 rounded-xl flex items-center justify-center overflow-hidden">
                         <img
@@ -200,7 +200,7 @@ export default function MixAndMatch({ gender, onOpenSavedLooks, onOpenMatchAnaly
                 })}
 
                 {/* Add Item Placeholder */}
-                <div className="shrink-0 w-20 aspect-square bg-surface-container rounded-xl border border-dashed border-outline-variant/30 flex items-center justify-center group cursor-pointer hover:bg-surface-container-high transition-all">
+                <div className="shrink-0 w-24 md:w-32 lg:w-40 aspect-square bg-surface-container rounded-xl border border-dashed border-outline-variant/30 flex items-center justify-center group cursor-pointer hover:bg-surface-container-high transition-all">
                   <span className="text-lg text-primary/20">+</span>
                 </div>
               </div>
@@ -259,7 +259,7 @@ export default function MixAndMatch({ gender, onOpenSavedLooks, onOpenMatchAnaly
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-sm bg-surface rounded-[2rem] p-8 shadow-2xl flex flex-col items-center text-center overflow-hidden"
+              className="relative w-full max-w-2xl bg-surface rounded-[2rem] p-8 md:p-12 shadow-2xl flex flex-col items-center text-center overflow-hidden"
             >
               <button onClick={closeAnalysis} className="absolute top-4 right-4 p-2 text-on-surface-variant hover:text-primary transition-colors">
                 <X size={20} />

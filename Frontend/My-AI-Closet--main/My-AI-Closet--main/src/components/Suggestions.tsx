@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, CloudSun, Thermometer, Wind, Check, Bookmark, Loader2 } from 'lucide-react';
+import { Sparkles, CloudSun, Thermometer, Wind, Check, Loader2 } from 'lucide-react';
 import { OUTFITS, ITEMS, Outfit } from '../constants';
 import MaterialScanner from './MaterialScanner';
 
 interface Props {
   gender: 'male' | 'female' | 'both';
+  selectedPersonas?: any[];
   onResetDNA: () => void;
   onGoToWardrobe?: () => void;
   onOpenMatchAnalysis?: () => void;
   onOpenProfile?: () => void;
 }
 
-export default function Suggestions({ gender, onResetDNA, onGoToWardrobe, onOpenMatchAnalysis, onOpenProfile }: Props) {
+export default function Suggestions({ gender, selectedPersonas, onResetDNA, onGoToWardrobe, onOpenMatchAnalysis, onOpenProfile }: Props) {
   const [weather, setWeather] = useState({
     temp: 24,
     condition: '맑음',
@@ -33,7 +34,7 @@ export default function Suggestions({ gender, onResetDNA, onGoToWardrobe, onOpen
 
           let conditionStr = '맑음';
           const code = current.weather_code;
-          if (code >= 1 && code <= 3) conditionStr = '구름많음/흐림';
+          if (code >= 1 && code <= 3) conditionStr = '구름 많음 / 흐림';
           else if (code >= 51 && code <= 67) conditionStr = '비';
           else if (code >= 71 && code <= 77) conditionStr = '눈';
           else if (code >= 80 && code <= 82) conditionStr = '소나기';
@@ -98,7 +99,7 @@ export default function Suggestions({ gender, onResetDNA, onGoToWardrobe, onOpen
                 <span className="text-[10px] font-bold text-primary uppercase tracking-[0.4em]">Real-time Weather</span>
                 <span className="text-[8px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold">{weather.location}</span>
               </div>
-              <h2 className="text-3xl font-serif italic mb-2">
+              <h2 className="text-[26px] font-serif italic mb-2 -ml-1 tracking-tight">
                 {weather.temp}°C {weather.condition}
               </h2>
               <div className="flex gap-4 opacity-40 text-[10px] font-bold uppercase tracking-widest">
@@ -118,7 +119,7 @@ export default function Suggestions({ gender, onResetDNA, onGoToWardrobe, onOpen
 
       {/* Material Scanner Widget */}
       <section className="px-6 mb-16">
-        <MaterialScanner />
+        <MaterialScanner personas={selectedPersonas} />
       </section>
 
       {/* Sequences */}
